@@ -2,17 +2,17 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ethers } from 'ethers'
 
+import { useStateContext } from '../context'
 import { money } from '../assets'
 import { CustomButton, FormField } from '../components'
 import { checkIfImage } from '../utils'
-
-const handleSubmit = () => { }
 
 
 const CreateCampaign = () => {
 
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
+  const { createCampaign } = useStateContext()
   const [form, setForm] = useState({
     name: '',
     title: '',
@@ -21,6 +21,27 @@ const CreateCampaign = () => {
     deadline: '',
     image: '',
   })
+
+  const handleFormFLiedChange = (fieldName, e) => {
+    setForm({ ...form, [fieldName]: e.target.value })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    checkIfImage(form.image, async (isImage) => {
+      if (isImage) {
+        setIsLoading(true)
+        await createCampaign({ ...form, target: ethers.utils.parseUnits(form.target, 18) })
+        setIsLoading(false)
+        navigate('/')
+      } else {
+        alert('La url de la imagen no es valida')
+        setForm({ ...form, image: '' })
+      }
+    }
+    )
+  }
 
   return (
     <div
@@ -48,14 +69,14 @@ const CreateCampaign = () => {
             placeholder="Juan Perez"
             inputType="text"
             value={form.name}
-            handleChange={() => { }}
+            handleChange={(e) => { handleFormFLiedChange('name', e) }}
           />
           <FormField
             labelName="Nombre de campaña *"
             placeholder="Escribe un titulo"
             inputType="text"
             value={form.title}
-            handleChange={() => { }}
+            handleChange={(e) => { handleFormFLiedChange('title', e) }}
           />
         </div>
 
@@ -64,7 +85,7 @@ const CreateCampaign = () => {
           placeholder="Escribe tu historia"
           isTextArea
           value={form.description}
-          handleChange={() => { }}
+          handleChange={(e) => { handleFormFLiedChange('description', e) }}
         />
 
         <div
@@ -90,16 +111,24 @@ const CreateCampaign = () => {
             placeholder="ETH 0.5"
             inputType="text"
             value={form.target}
-            handleChange={() => { }}
+            handleChange={(e) => { handleFormFLiedChange('target', e) }}
           />
           <FormField
             labelName="Fecha de termino *"
             placeholder="Fecha de termino"
             inputType="date"
             value={form.deadline}
-            handleChange={() => { }}
+            handleChange={(e) => { handleFormFLiedChange('deadline', e) }}
           />
         </div>
+
+        <FormField
+          labelName="Imagen de campaña *"
+          placeholder="Ingresa la url de la imagen de tu campaña"
+          inputType="url"
+          value={form.image}
+          handleChange={(e) => { handleFormFLiedChange('image', e) }}
+        />
 
         <div
           className='flex justigfy-center items-center mt-[40px]'
