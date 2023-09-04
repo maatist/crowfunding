@@ -8,16 +8,17 @@ import { navlinks } from '../constants'
 
 
 
-
 const Navbar = () => {
   const navigate = useNavigate()
   const [isActive, setIsActive] = useState('dashboard')
   const [toggleDrawer, setToggleDrawer] = useState(false)
-  const { connect, address } = useStateContext()
+  const { connect, address, searchTextBox, setSearchTextBox, filterCampaign, setFilterCampaign } = useStateContext()
 
   // Busqueda
-  const [searchText, setSearchText] = useState('')
-  const handleClick = () => { }
+  const handleClick = () => {
+    setFilterCampaign(!filterCampaign)
+  }
+
 
 
   return (
@@ -30,8 +31,8 @@ const Navbar = () => {
         <input
           type="text"
           placeholder='Busca una campaña'
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          value={searchTextBox}
+          onChange={(e) => setSearchTextBox(e.target.value)}
           className='flex w-full font-normal font-epilogue text-[14px] placeholder-[#4b5264] text-white bg-transparent outline-none'
         />
         <div
