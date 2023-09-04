@@ -8,11 +8,16 @@ import { navlinks } from '../constants'
 
 
 
+
 const Navbar = () => {
   const navigate = useNavigate()
   const [isActive, setIsActive] = useState('dashboard')
   const [toggleDrawer, setToggleDrawer] = useState(false)
   const { connect, address } = useStateContext()
+
+  // Busqueda
+  const [searchText, setSearchText] = useState('')
+  const handleClick = () => { }
 
 
   return (
@@ -25,12 +30,15 @@ const Navbar = () => {
         <input
           type="text"
           placeholder='Busca una campaña'
-          className='flex w-full font-normal font-epilogue text-[14px] placeholder-[#4b5264] text white bg-transparent outline-none'
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          className='flex w-full font-normal font-epilogue text-[14px] placeholder-[#4b5264] text-white bg-transparent outline-none'
         />
         <div
           className='w-[72px] h-full rounded-[20px] bg-[#4acd8d] flex justify-center items-center cursor-pointer'
         >
           <img
+            onClick={handleClick}
             src={search}
             alt="search"
             className='w-[15px] h-[15px] object-contain' />

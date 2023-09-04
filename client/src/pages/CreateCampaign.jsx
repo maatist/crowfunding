@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ethers } from 'ethers'
+import Popup from 'reactjs-popup'
 
 import { useStateContext } from '../context'
 import { money } from '../assets'
-import { CustomButton, FormField } from '../components'
+import { CustomButton, FormField, Loader } from '../components'
 import { checkIfImage } from '../utils'
 
 
@@ -26,17 +27,27 @@ const CreateCampaign = () => {
     setForm({ ...form, [fieldName]: e.target.value })
   }
 
+  const [open, setOpen] = useState(false)
+  const closeModal = () => setOpen(false)
+  const [modalText, setModalText] = useState('')
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     checkIfImage(form.image, async (isImage) => {
       if (isImage) {
         setIsLoading(true)
-        await createCampaign({ ...form, target: ethers.utils.parseUnits(form.target, 18) })
-        setIsLoading(false)
+        try {
+          await createCampaign({ ...form, target: ethers.utils.parseUnits(form.target, 18) })
+        } catch (error) {
+          setModalText('No se pudo realizar la transaccion')
+          setOpen(o => !o)
+        }
         navigate('/')
+        setIsLoading(false)
       } else {
-        alert('La url de la imagen no es valida')
+        setModalText('La url de la imagen no es valida')
+        setOpen(o => !o)
         setForm({ ...form, image: '' })
       }
     }
@@ -47,7 +58,7 @@ const CreateCampaign = () => {
     <div
       className='bg-[#1c1c24] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4'
     >
-      {isLoading && 'Cargando...'}
+      {isLoading && <Loader />}
       <div
         className='flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[#3a3a43] rounded-[10px]'
       >
@@ -141,6 +152,20 @@ const CreateCampaign = () => {
         </div>
 
       </form>
+
+
+      <Popup open={open} closeOnDocumentClick onClose={closeModal}>
+        <div className="modal fixed bottom-3 right-3">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-5 rounded relative" role="alert">
+            <strong className="font-bold">Algo salio mal!</strong>
+            <span className="block sm:inline"> {modalText}.</span>
+            <span className="absolute top-0 bottom-0 right-0 px-1 py-1 mb-2">
+              <svg onClick={closeModal} className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+            </span>
+          </div>
+
+        </div>
+      </Popup>
     </div>
   )
 }

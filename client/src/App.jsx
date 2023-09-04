@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
-import {Sidebar, Navbar} from './components'
+import { Sidebar, Navbar } from './components'
 import { Home, CreateCampaign, CampaignDetails, Profile } from './pages'
 
 
