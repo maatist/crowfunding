@@ -5,11 +5,12 @@ import { BigNumber, ethers } from 'ethers';
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-    const { contract } = useContract('0x05B16302012341Ea15c396B22fAF1C9B64A305c2')
+    const { contract } = useContract('0xf814cFd5947b1a063fCA374293ED0a0b156eC58f')
     const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign')
     const [searchTextBox, setSearchTextBox] = useState('')
     const [campaigns, setCampaigns] = useState([])
     const [filterCampaign, setFilterCampaign] = useState(true)
+    const [openSuccessAlert, setOpenSuccessAlert] = useState(false)
 
     const address = useAddress();
     const connect = useMetamask();
@@ -22,11 +23,14 @@ export const StateContextProvider = ({ children }) => {
                     address, // dueño de la campaña
                     form.title, // titulo de la campaña
                     form.description, // descripcion de la campaña
+                    form.category,
                     form.target, // meta de la campaña
                     new Date(form.deadline).getTime(), // fecha de finalizacion de la campaña
                     form.image,
                 ]// args de la funcion createCampaign
             })
+
+            setOpenSuccessAlert(true)
 
             console.log("Llamada a la funcion createCampaign realizada con exito", data)
 
@@ -44,6 +48,7 @@ export const StateContextProvider = ({ children }) => {
             owner: campaign.owner,
             title: campaign.title,
             description: campaign.description,
+            category: campaign.category,
             target: ethers.utils.formatEther(campaign.target.toString()),
             deadline: campaign.deadline.toNumber(),
             amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
@@ -65,6 +70,7 @@ export const StateContextProvider = ({ children }) => {
             owner: campaign.owner,
             title: campaign.title,
             description: campaign.description,
+            category: campaign.category,
             target: ethers.utils.formatEther(campaign.target.toString()),
             deadline: campaign.deadline.toNumber(),
             amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
@@ -83,6 +89,7 @@ export const StateContextProvider = ({ children }) => {
             owner: campaign.owner,
             title: campaign.title,
             description: campaign.description,
+            category: campaign.category,
             target: ethers.utils.formatEther(campaign.target.toString()),
             deadline: campaign.deadline.toNumber(),
             amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
@@ -133,6 +140,8 @@ export const StateContextProvider = ({ children }) => {
                 setCampaigns,
                 filterCampaign,
                 setFilterCampaign,
+                openSuccessAlert,
+                setOpenSuccessAlert,
             }}
         >
             {children}

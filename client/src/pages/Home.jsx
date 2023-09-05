@@ -9,7 +9,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false)
   /* const [campaigns, setCampaigns] = useState([]) */
 
-  const { address, contract, getCampaigns, getFilteredCampaigns, campaigns, setCampaigns, filterCampaign, searchTextBox, setSearchTextBox } = useStateContext()
+  const { address, contract, getCampaigns, getFilteredCampaigns, campaigns, setCampaigns, filterCampaign, searchTextBox, setSearchTextBox, openSuccessAlert, setOpenSuccessAlert } = useStateContext()
 
   const fetchCampaigns = async () => {
     setIsLoading(true)
@@ -39,6 +39,7 @@ const Home = () => {
   }, [filterCampaign])
 
   return (
+
     <DisplayCampaigns
       title="Todas las campañas"
       isLoading={isLoading}

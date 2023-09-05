@@ -18,6 +18,7 @@ const CreateCampaign = () => {
     name: '',
     title: '',
     description: '',
+    category: '',
     target: '',
     deadline: '',
     image: '',
@@ -90,6 +91,14 @@ const CreateCampaign = () => {
             handleChange={(e) => { handleFormFLiedChange('title', e) }}
           />
         </div>
+
+        <FormField
+          labelName="Categoria de campaña *"
+          placeholder="Categoria"
+          inputType="text"
+          value={form.category}
+          handleChange={(e) => { handleFormFLiedChange('category', e) }}
+        />
 
         <FormField
           labelName="Historia *"
