@@ -6,6 +6,7 @@ contract CrowdFunding {
         address owner;
         string title;
         string description;
+        string category;
         uint256 target;
         uint256 deadline;
         uint256 amountCollected;
@@ -22,7 +23,8 @@ contract CrowdFunding {
     function createCampaign(
         address _owner, 
         string memory _title, 
-        string memory _description, 
+        string memory _description,
+        string memory _category,
         uint256 _target, 
         uint256 _deadline, 
         string memory _image
@@ -34,6 +36,7 @@ contract CrowdFunding {
         campaign.owner = _owner;
         campaign.title = _title;
         campaign.description = _description;
+        campaign.category = _category;
         campaign.target = _target;
         campaign.deadline = _deadline;
         campaign.amountCollected = 0;
