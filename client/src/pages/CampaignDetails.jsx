@@ -20,6 +20,7 @@ const CampaignDetails = () => {
 
   const [open, setOpen] = useState(false)
   const closeModal = () => setOpen(false)
+  const [modalColor, setModalColor] = useState('red') // teal
 
   const remainingDays = daysLeft(state.deadline)
 

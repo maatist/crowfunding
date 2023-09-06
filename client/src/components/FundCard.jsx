@@ -3,7 +3,7 @@ import React from 'react'
 import { tagType, thirdweb } from '../assets'
 import { daysLeft } from '../utils'
 
-const FundCard = ({ owner, title, description, target, deadline, amountCollected, image, handleClick }) => {
+const FundCard = ({ owner, title, description, category, target, deadline, amountCollected, image, handleClick }) => {
 
     const remainingDays = daysLeft(deadline)
 
@@ -30,7 +30,7 @@ const FundCard = ({ owner, title, description, target, deadline, amountCollected
                     />
                     <p
                         className='ml-[12px] mt-[2px] font-epilogue font-semibold text-[12px] text-[#909181]'
-                    >Viaje
+                    >{category}
                     </p>
                 </div>
                 <div
