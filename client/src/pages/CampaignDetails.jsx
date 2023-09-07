@@ -185,8 +185,8 @@ const CampaignDetails = () => {
               <div
                 className='my-[20px] p-4 bg-[#13131a] rounded-[10px]'
               >
-                <h4 className='font-epilogue font-semibold text-[14px] leading-[22px] text-white'>Aporta porque crees en la campaña</h4>
-                <p className='mt-[20px] font-epilogue font-normal leading-[22px] text-[#809191]'>Contribuye con el proyecto sin esperar nada a cambio</p>
+                <h4 className='font-epilogue font-semibold text-[16px] leading-[22px] text-white'>Aporta porque crees en la campaña</h4>
+                <p className='mt-[20px] font-epilogue font-normal leading-[22px] text-[#809191] text-[14px]'>Contribuye con el proyecto sin esperar nada a cambio</p>
               </div>
 
               <CustomButton
