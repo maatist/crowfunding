@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Popup from 'reactjs-popup'
 
 import { useStateContext } from '../context'
 import { logo, sun } from '../assets'
@@ -23,7 +24,12 @@ const Sidebar = () => {
 
   const navigate = useNavigate()
   const [isActive, setIsActive] = useState('dashboard')
-  const { filterCampaign, setFilterCampaign, setSearchTextBox } = useStateContext()
+  const { filterCampaign, setFilterCampaign, setSearchTextBox, address } = useStateContext()
+
+
+  const [open, setOpen] = useState(false)
+  const closeModal = () => setOpen(false)
+  const [modalText, setModalText] = useState('')
 
 
   const handleHomeClick = () => {
@@ -54,10 +60,16 @@ const Sidebar = () => {
               {...link}
               isActive={isActive}
               handleClick={() => {
-                if (!link.disabled) {
-                  setIsActive(link.name)
-                  navigate(link.link)
+                if (!address) {
+                  setModalText('Necesitas conectar tu wallet')
+                  setOpen(o => !o)
+                } else {
+                  if (!link.disabled) {
+                    setIsActive(link.name)
+                    navigate(link.link)
+                  }
                 }
+
               }}
             />
           ))}
@@ -67,6 +79,19 @@ const Sidebar = () => {
           imgUrl={sun}
         />
       </div>
+
+      <Popup open={open} closeOnDocumentClick onClose={closeModal}>
+        <div className="modal fixed bottom-3 right-3">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-5 rounded relative" role="alert">
+            <strong className="font-bold">Ups!</strong>
+            <span className="block sm:inline"> {modalText}.</span>
+            <span className="absolute top-0 bottom-0 right-0 px-1 py-1 mb-2">
+              <svg onClick={closeModal} className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+            </span>
+          </div>
+
+        </div>
+      </Popup>
     </div>
   )
 }
