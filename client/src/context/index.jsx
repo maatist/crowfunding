@@ -1,5 +1,5 @@
 import React, { useContext, createContext, useState } from 'react';
-import { useAddress, useContract, useMetamask, useContractWrite } from '@thirdweb-dev/react';
+import { useAddress, useContract, useMetamask, useDisconnect, useContractWrite } from '@thirdweb-dev/react';
 import { BigNumber, ethers } from 'ethers';
 
 const StateContext = createContext();
@@ -14,6 +14,7 @@ export const StateContextProvider = ({ children }) => {
 
     const address = useAddress();
     const connect = useMetamask();
+    const disconnect = useDisconnect();
 
     const publishCampaign = async (form) => {
 
@@ -128,6 +129,7 @@ export const StateContextProvider = ({ children }) => {
                 address,
                 contract,
                 connect,
+                disconnect,
                 getCampaigns,
                 getUserCampaigns,
                 createCampaign: publishCampaign,
