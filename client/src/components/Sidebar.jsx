@@ -24,7 +24,7 @@ const Sidebar = () => {
 
   const navigate = useNavigate()
   const [isActive, setIsActive] = useState('dashboard')
-  const { filterCampaign, setFilterCampaign, setSearchTextBox, address } = useStateContext()
+  const { filterCampaign, setFilterCampaign, setSearchTextBox, address, disconnect } = useStateContext()
 
 
   const [open, setOpen] = useState(false)
@@ -60,17 +60,22 @@ const Sidebar = () => {
               {...link}
               isActive={isActive}
               handleClick={() => {
-                if (!address) {
-                  setModalText('Necesitas conectar tu wallet')
-                  setOpen(o => !o)
-                } else {
-                  if (!link.disabled) {
+
+                if (!link.disabled) {
+                  if (!address & !link.name.includes("dashboard")) {
+                    setModalText('Necesitas conectar tu wallet')
+                    setOpen(o => !o)
+                  } else if (link.name.includes("logout")) {
+                    disconnect();
+                    navigate("/")
+                  } else {
                     setIsActive(link.name)
                     navigate(link.link)
                   }
                 }
+              }
 
-              }}
+              }
             />
           ))}
         </div>
